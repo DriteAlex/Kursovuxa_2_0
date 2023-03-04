@@ -59,8 +59,8 @@ namespace MethodLibrary
 
                 double sum = CalculateSumSeries();
                 mass[i] = sum;
-                Console.WriteLine($@"Сумма элемента {i + 1}: {mass[i]:f6}  
-");
+                Console.WriteLine($@"Сумма элемента {i + 1}: {mass[i]:f6}");
+                Console.WriteLine();
             }
         }
 
@@ -76,13 +76,13 @@ namespace MethodLibrary
 
             double znak = 1;
 
-            for (int i = 1; Math.Abs(element)>eps; i++)
+            for (int i = 1; Math.Abs(element) > eps; i++)
             {
-                if (i==1)
+                if (i == 1)
                 {
                     element = xStart;
                     //Console.WriteLine($@" X({i}) = {element}");
-                    sumSeries +=element;
+                    sumSeries += element;
                 }
 
                 if (i > 1)
@@ -90,12 +90,12 @@ namespace MethodLibrary
                     znak *= -1;
                     x *= xStart;
 
-                    element = znak*((a / b) * x);
+                    element = znak * ((a / b) * x);
                     //Console.WriteLine($@" X({i}) = {element}");
                     sumSeries += element;
 
-                    a *= 4 * (i+2) - 5;
-                    b *= 4*(i+2);
+                    a *= 4 * (i + 2) - 5;
+                    b *= 4 * (i + 2);
                 }
             }
 
@@ -113,8 +113,8 @@ namespace MethodLibrary
             return checkFormul;
         }
 
-       
 
-       
+
+
     }
 }
