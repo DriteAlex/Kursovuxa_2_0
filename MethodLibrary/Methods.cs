@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MethodLibrary
 {
@@ -13,9 +8,9 @@ namespace MethodLibrary
         double xEnd;
         double eps;
         double step;
-        int n = 0;
+        public int n;
         public double[] mass;
-        public int SetData()
+        public Methods()
         {
             Console.WriteLine("Введите данные для ряда:");
 
@@ -37,17 +32,9 @@ namespace MethodLibrary
             eps = 0.001;
             step = 0.1;
 
-            n = 0;//размерность массива
-            double arraySize = xStart;//переменная для подсчёта размерности массива
-
-            for (int i = 0; arraySize < xEnd; i++)
-            {
-                arraySize += step;
-                n++;
-            }
+            n = (int)((xEnd - xStart) / step + 1);
 
             mass = new double[n];
-            return n;
         }
 
         public void ShowData()
@@ -66,9 +53,9 @@ namespace MethodLibrary
 
         public double CalculateSumSeries()
         {
-            double sumSeries = 0;
+            double sumSeries = xStart;
             double x = xStart;
-            double element = 1;
+            double element;
 
             double a, b;// переменные для расчёта формулы суммы ряда
             a = 3;
@@ -76,28 +63,17 @@ namespace MethodLibrary
 
             double znak = 1;
 
-            for (int i = 1; Math.Abs(element) > eps; i++)
+            do
             {
-                if (i == 1)
-                {
-                    element = xStart;
-                    //Console.WriteLine($@" X({i}) = {element}");
-                    sumSeries += element;
-                }
+                znak *= -1;
+                x *= xStart;
+                element = znak * (a / b * x);
+                sumSeries += element;
 
-                if (i > 1)
-                {
-                    znak *= -1;
-                    x *= xStart;
-
-                    element = znak * ((a / b) * x);
-                    //Console.WriteLine($@" X({i}) = {element}");
-                    sumSeries += element;
-
-                    a *= 4 * (i + 2) - 5;
-                    b *= 4 * (i + 2);
-                }
+                a *= a + 4;
+                b *= b + 4;
             }
+            while (Math.Abs(element) > eps);
 
             if (xStart < xEnd)
             {

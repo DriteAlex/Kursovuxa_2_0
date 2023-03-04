@@ -1,80 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MethodLibrary
 {
-    public class Massives : Methods
+    static public class Massives
     {
-        readonly int n = 0; //размерность массива
-        public Massives(int n)
-        {
-            this.n = n;
-        }
+        public static int n;
 
-        public T[,] CreateMassive<T>(T[,] mass, Func<T> rnd)
+        static public T[,] CreateMassive<T>(Func<T> rnd)
         {
+            var arr = new T[n,n];
             for (int i = 0; i < n; i++)
-            {
                 for (int j = 0; j < n; j++)
-                {
-                    mass[i, j] = rnd.Invoke();
-                }
-            }
-            return mass;
+                    arr[i, j] = rnd.Invoke();
+
+            return arr;
         }
-        public void ShowMassive<T>(T[,] mass, string message)
+        static public void ShowMassive<T>(this T[,] mass, string message)
         {
-            Console.WriteLine($@"{message}\n\n");
+            Console.WriteLine($"{message}\n\n");
 
             int i = 1;
             foreach (var x in mass)
             {
-                string str = x.ToString();
-                str = $"{x:f2}";
+                var str = $"{x:f2}";
                 if (i % n != 0)
                 {
                     switch (str.Length)
                     {
                         case 1:
                             Console.Write($@"|     {str}|");
-                            i++;
                             break;
                         case 2:
                             Console.Write($@"|    {str}|");
-                            i++;
                             break;
                         case 3:
                             Console.Write($@"|   {str}|");
-                            i++;
                             break;
                         case 4:
                             Console.Write($@"|  {str}|");
-                            i++;
                             break;
                         case 5:
                             Console.Write($@"| {str}|");
-                            i++;
                             break;
                         case 6:
                             Console.Write($@"|{str}|");
-                            i++;
                             break;
                     }
                 }
                 else
                 {
                     Console.WriteLine($@"| {str} |");
-                    i++;
                 }
+                i++;
             }
         }
 
-        public int[,] TranspotionMassive(int[,] mass)
+        static public int[,] TranspotionMassive(this int[,] mass)
         {
             int[,] trans = new int[n, n];
             for (int i = 0; i < n; i++)
@@ -87,18 +68,36 @@ namespace MethodLibrary
             return trans;
         }
 
-        public double[,] MultiplyMassives(int[,] trans, double[] massA)
+        static public double[,] MultiplyMassives(this int[,] trans, double[] massA)
         {
-            double[,] massiveC = new double[n, n];
+            var massiveC = new double[n, n];
             for (int i = 0; i < n; i++)
-            {
                 for (int j = 0; j < n; j++)
-                {
                     massiveC[i, j] = trans[i, j] * massA[i];
-                }
-            }
+
             return massiveC;
         }
 
+        static int[] ViborSort(int[] mas)
+        {
+
+            for (int i = 0; i < mas.Length - 1; i++)
+            {
+                //поиск минимального числа
+                int min = i;
+                for (int j = i + 1; j < mas.Length; j++)
+                {
+                    if (mas[j] < mas[min])
+                    {
+                        min = j;
+                    }
+                }
+                //обмен элементов
+                int temp = mas[min];
+                mas[min] = mas[i];
+                mas[i] = temp;
+            }
+            return mas;
+        }
     }
 }
